@@ -77,7 +77,7 @@ body {
 .btn-add img:hover {
     transition: transform .7s ease-in-out;
     transform: rotate(360deg);
-    content: url("/assets/add_after.svg");
+    content: url("../assets/add_after.svg");
 }
 
 #info {
