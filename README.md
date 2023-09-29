@@ -39,6 +39,7 @@ I would love to hear to your feedback and implement new features and enhancement
 
 <!-- DEMO -->
 ## Demo
+Check out the live demo at <a href="https://yashvardhang.github.io/Playground/">Playground Website</a><br>
 Currently, you may perform the following:
 <ol>
 <li><b>Home:</b></li>
