@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="title">
+        <h1>Playground</h1>
+        <h2>Your Minimalist Productivity Board</h2>
+        <button id="info">i</button>
+    </div>
+
+    <div id="container">
+        <button class="btn-add">
+            <img src="/assets/add_before.svg" style="height: 18vh;" />
+            <br>Add a note
+        </button>
+    </div>
+
+    <div id="myPopup" class="popup">
+        <div class="popup-content">
+            <h1>Information</h1>
+            <p>• To add a note click on the 'Add a note' button
+                <br>• Delete a note by double clicking on it
+                <br>• Add a bullet list by typing '/b' and hitting enter
+                <br>• Edit a note by single clicking on it
+                <br>• The notes are auto-saved
+                <br><br><span id="creator">Created by <a href = "https://github.com/YashvardhanG">Yashvardhan Gupta</a></span>
+            </p>
+            <button id="closePopup">x</button>
+        </div>
+    </div>
+
+    <script>
+        info.addEventListener("click", function () {
+            myPopup.classList.add("show");
+        });
+        closePopup.addEventListener("click", function () {
+            myPopup.classList.remove("show");
+        });
+        window.addEventListener("click", function (event) {
+            if (event.target == myPopup) {
+                myPopup.classList.remove("show");
+            }
+        });
+    </script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
