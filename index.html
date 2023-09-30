@@ -13,11 +13,11 @@
     <div class="title">
         <h1>Playground</h1>
         <h2>Your Minimalist Productivity<b></b> Board</h2>
-        <button id="info">i</button>
+        <button id="info" title="Info Corner (\)">i</button>
     </div>
 
     <div id="container">
-        <button class="btn-add">
+        <button class="btn-add" title="Add Note ({)">
             <img src="./assets/add_before.svg" style="height: 18vh;" />
             <br>Add a note
         </button>
@@ -26,11 +26,17 @@
     <div id="myPopup" class="popup">
         <div class="popup-content">
             <h1>Information</h1>
-            <p>• To add a note click on the 'Add a note' button
+            <p><b>General:</b>
+                <br>• To add a note click on the 'Add a note' button
                 <br>• Delete a note by double clicking on it
-                <br>• Add a bullet list by typing '/b' and hitting enter
                 <br>• Edit a note by single clicking on it
-                <br>• The notes are auto-saved
+                <br>• All notes are auto-saved
+                <br><br><b>Keyboard Commands:</b>
+                <br>• Add a bullet list by typing <b>/b</b> and hitting enter
+                <br>• Add an ordered list by typing <b>/o</b> and hitting enter
+                <br>• Create a note by pressing <b>{</b> key
+                <br>• Delete last note by pressing <b>}</b> key
+                <br>• Toggle Info Corner with <b>\</b> key
                 <br><br><span id="creator">Created by <a href = "https://github.com/YashvardhanG">Yashvardhan Gupta</a></span>
             </p>
             <button id="closePopup">x</button>
@@ -52,5 +58,4 @@
     </script>
     <script src="js/script.js"></script>
 </body>
-
 </html>

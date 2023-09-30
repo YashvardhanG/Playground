@@ -14,8 +14,8 @@ function createTextElement(id, content) {
     const textElement = document.createElement('textarea');
     textElement.classList.add('sticky');
     textElement.value = content;
-    if (getAppStorage().length == 0) {
-        textElement.placeholder = 'First Note Tips 💡\n\nClick to type\nEnter after /b for list\nDouble Click to Delete';
+    if (getAppStorage().length == 0 || getAppStorage().length == 1) {
+        textElement.placeholder = 'First Note Tips 💡\n\nClick to type\nDouble Click to Delete\nNotes Auto-Saved\n\n\nMore Info press "\\"';
     }
 
     else {
@@ -28,7 +28,7 @@ function createTextElement(id, content) {
     });
 
     textElement.addEventListener("dblclick", () => {
-        const check = confirm("Are You Sure to Delete ?");
+        const check = confirm("Delete this note?");
         if (check) {
             deleteNotes(id, textElement);
         }
@@ -43,6 +43,7 @@ function createTextElement(id, content) {
             const beforeCaret = text.substring(0, caretStart);
             const afterCaret = text.substring(caretEnd);
             const bulletText = "/b";
+            const orderedText = "/o";
 
             if (beforeCaret.endsWith(bulletText)) {
                 const newText = beforeCaret.slice(0, -bulletText.length) + "\n• " + afterCaret;
@@ -50,7 +51,17 @@ function createTextElement(id, content) {
                 updateNote(id, newText);
                 const newCaretStart = caretStart + 3;
                 textElement.setSelectionRange(newCaretStart, newCaretStart);
-            } else {
+            }
+
+            else if (beforeCaret.endsWith(orderedText)) {
+                const newText = beforeCaret.slice(0, -orderedText.length) + "\n1. " + afterCaret;
+                textElement.value = newText;
+                updateNote(id, newText);
+                const newCaretStart = caretStart + 3;
+                textElement.setSelectionRange(newCaretStart, newCaretStart);
+            }
+
+            else {
                 const lines = beforeCaret.split('\n');
                 const currentLine = lines[lines.length - 1];
 
@@ -71,6 +82,25 @@ function createTextElement(id, content) {
                     textElement.setSelectionRange(newCaretStart, newCaretStart);
                 }
 
+                else if (order(currentLine.trim())) {
+                    const newText = beforeCaret + "\n" + afterCaret;
+                    textElement.value = newText;
+                    updateNote(id, newText);
+                    const newCaretStart = caretStart + 1;
+                    textElement.setSelectionRange(newCaretStart, newCaretStart);
+                }
+
+                else if (order(currentLine.substring(0, 2))) {
+                    const currentNumber = parseInt(currentLine[0]);
+                    const newNumber = currentNumber + 1;
+
+                    const newText = beforeCaret + "\n" + newNumber + ". " + afterCaret;
+                    textElement.value = newText;
+                    updateNote(id, newText);
+                    const newCaretStart = caretStart + 3;
+                    textElement.setSelectionRange(newCaretStart, newCaretStart);
+                }
+
                 else {
                     const newText = beforeCaret + "\n" + afterCaret;
                     textElement.value = newText;
@@ -83,6 +113,11 @@ function createTextElement(id, content) {
     });
 
     return textElement;
+}
+
+function order(line) {
+    const pattern = /^[0-9]+\.$/;
+    return pattern.test(line);
 }
 
 function addSticky() {
@@ -98,11 +133,44 @@ function addSticky() {
 }
 
 btnAdd.addEventListener('click', () => addSticky());
+window.addEventListener("keyup", function (e) { if (e.keyCode === 219) { addSticky(); } });
+window.addEventListener("keyup", function (e) { if (e.keyCode === 221) { deleteSticky(); } });
+window.addEventListener("keyup", function (e) { if (e.keyCode === 220) { pop(); } });
 
+function pop() {
+    if (document.getElementById('myPopup').classList.contains("show")) {
+        document.getElementById('myPopup').classList.remove("show");
+    }
+
+    else {
+        document.getElementById('myPopup').classList.add("show");
+    }
+}
+
+function deleteSticky() {
+    if (getAppStorage().length > 0) {
+        const check = confirm("Delete the last created note?");
+        if (check) {
+            const notes = getAppStorage();
+            const lastNote = notes[notes.length - 1];
+            const textElement = getLastTextarea();
+            deleteNotes(lastNote.id, textElement);
+        }
+    }
+}
+
+function getLastTextarea() {
+    const textElement = containerElement.querySelectorAll('textarea');
+    if (textElement.length > 0) {
+        return textElement[textElement.length - 1];
+    }
+    return null;
+}
 
 function saveNotes(notes) {
     localStorage.setItem("yg-pg", JSON.stringify(notes));
 }
+
 
 function updateNote(id, content) {
     const notes = getAppStorage();
